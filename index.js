@@ -3,6 +3,8 @@ var lastX, lastY;
 var context, contextResult;
 var img = new Image();
 var text = document.getElementById('test');
+const CANVAS_SIZE = 800;
+const LINE_SIZE = 10; 
 
 function InitThis() {
     context = document.getElementById('canvas').getContext("2d");
@@ -30,7 +32,7 @@ function InitThis() {
 function Draw(x, y, isDown) {
     if (isDown) {
         context.beginPath();
-        context.lineWidth = "25";
+        context.lineWidth = LINE_SIZE;
         context.lineJoin = "round";
         context.strokeStyle = "#eee";
         context.moveTo(lastX, lastY);
@@ -45,11 +47,12 @@ function Draw(x, y, isDown) {
 function clearArea() {
     // Use the identity matrix while clearing the canvas
     context.setTransform(1, 0, 0, 1, 0, 0);
-    context.clearRect(0, 0, 500, 500);
+    context.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+    text.innerHTML = '';
 }
 
-
 function save() {
+
     var dataURL = canvas.toDataURL("image/jpeg");
     img.src = dataURL;
 
@@ -59,8 +62,6 @@ function save() {
         await contextResult.drawImage(canvasResult, 0, 0, 28, 28, 0, 0, 28, 28);
         var dataURLResult = await canvasResult.toDataURL("image/jpeg");
         document.getElementById("canvas-image").src = dataURLResult;
-
-        console.log(dataURLResult);
         
         var url = 'http://27.66.3.210:5005/predict';
 
@@ -69,11 +70,11 @@ function save() {
         }
 
         fetch(url, {
-            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            method: 'POST', 
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(data), // body data type must match "Content-Type" header
+            body: JSON.stringify(data)
         })
         .then(res => res.json())
         .then(data => {
@@ -81,10 +82,3 @@ function save() {
         })
     }
 }
-
-// function clear() {
-//     alert('1');
-//     context = document.getElementById('canvas').getContext("2d");
-//     context.clearRect(0, 0, 500, 500);
-//     text.innerHTML = '';
-// }
