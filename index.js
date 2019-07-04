@@ -76,7 +76,7 @@ function save() {
             body: JSON.stringify(data), // body data type must match "Content-Type" header
         })
         .then(data => {
-            console.log(data);
+            text.innerText = data;
         })
 
     }
