@@ -108,8 +108,6 @@ def disp_pic():
         latex = class_names[ind]
         print(latex)
         m = {'name': latex}
-        # n = json.dumps(m)
-        # o = json.loads(n)
     return jsonify(m)
 
 if __name__ == '__main__':
