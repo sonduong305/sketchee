@@ -8,6 +8,7 @@ import cv2
 import re
 import base64
 import json
+from init_model import load_model
 keras.backend.clear_session()
 def application(environ, start_response):
   if environ['REQUEST_METHOD'] == 'OPTIONS':
@@ -22,39 +23,7 @@ def application(environ, start_response):
     )
     return ''
 
-def load_model():
-    input_shape = [28,28,1]
-    # Define model
-    model = keras.Sequential()
-    model.add(layers.Convolution2D(16, (3, 3),
-                            padding='same',
-                            input_shape=input_shape, activation='relu'))
-    model.add(layers.MaxPooling2D(pool_size=(2, 2)))
-    model.add(layers.Dropout(0.2))
-    model.add(layers.Convolution2D(32, (3, 3), padding='same', activation= 'relu'))
-    model.add(layers.MaxPooling2D(pool_size=(2, 2)))
-    model.add(layers.Dropout(0.2))
-    model.add(layers.Convolution2D(64, (3, 3), padding='same', activation= 'relu'))
-    model.add(layers.MaxPooling2D(pool_size =(2,2)))
-    model.add(layers.Dropout(0.2))
-    model.add(layers.Flatten())
-    model.add(layers.Dense(128, activation='tanh'))
-    model.add(layers.Dense(100, activation='softmax')) 
-    # Train model
-    adam = tf.train.AdamOptimizer()
-    model.compile(loss='categorical_crossentropy',
-                optimizer=adam,
-                metrics=['top_k_categorical_accuracy'])
-
-    model.load_weights('keras.h5')
-    model._make_predict_function()
-    # model.summary()
-    return model
-
 model = load_model()
-model.layers[10].name = 'dense'
-model.layers[11].name = 'dense_1'
-model.summary()
 class_names =[]
 with open('model\\class_names.txt', 'r') as f:
     class_names = f.readlines()
@@ -80,7 +49,7 @@ def disp_pic():
 
         img_data = data['img']
         
-      # this method convert and save the base64 string to image
+        # this method convert and save the base64 string to image
         # convert_and_save(img_data)
         # data = request.data
         content = img_data.split(';')[1]
@@ -89,12 +58,12 @@ def disp_pic():
         nparr = np.fromstring(body, np.uint8)
         img = cv2.imdecode(nparr, 0)
         img = cv2.resize(img,(28,28))
+
+        # make img contains only 0 and 255
+        img = (img>10*(np.ones((img.shape))))*255
+        img = np.array(img,dtype = np.int16)
+
         cv2.imwrite("temp\\temp.jpeg",img)
-        # img = img>10
-        # kernel = np.ones((3,3),np.uint8)
-        # img = cv2.dilate(img,kernel,iterations = 1)
-        
-        # cv2.imwrite("temp\\after_dilation.jpeg",img)
         img = img / 255.0
         img = np.around(img, 2)
         # print(img)
@@ -112,7 +81,3 @@ def disp_pic():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-# def preprocess(img):
-#     img = cv2.bitwise_not(img)
-#     img = 
