@@ -62,7 +62,7 @@ function save() {
 
         console.log(dataURLResult);
         
-        var url = 'http://localhost:5000/predict';
+        var url = 'http://27.66.3.210:5005/predict';
 
         var data = {
             img: dataURLResult
@@ -75,8 +75,9 @@ function save() {
             },
             body: JSON.stringify(data), // body data type must match "Content-Type" header
         })
+        .then(res => res.json())
         .then(data => {
-            console.log(data);
+            text.innerHTML = data.results[0];
         })
 
     }

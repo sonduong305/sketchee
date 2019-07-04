@@ -14,15 +14,18 @@
       <canvas id="canvas" width="500" height="500">
       </canvas>
    </div>
-      <canvas id="canvasResult" width="28" height="28">
+      <canvas id="canvasResult" style="display: none;" width="28" height="28">
          </canvas>
-      <img id="canvas-image"  alt="Canvas Image">
-      <p id="test">...</p>
-   <input 
-      type="button"
-      value="Save"
-      onClick="save()"
-   />
+      <img id="canvas-image" style="display: none;" alt="Canvas Image">
+      <p class="text-results">Are your drawing <span id="test"></span> ?</p>
+      
+      <div class="btn-send">
+         <input 
+         type="button"
+         value="Check"
+         onClick="save()"
+         />
+      </div>
    <script src="index.js"></script>
 </body>
 </html>
