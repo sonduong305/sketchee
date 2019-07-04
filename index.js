@@ -45,7 +45,7 @@ function Draw(x, y, isDown) {
 function clearArea() {
     // Use the identity matrix while clearing the canvas
     context.setTransform(1, 0, 0, 1, 0, 0);
-    context.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    context.clearRect(0, 0, 500, 500);
 }
 
 
@@ -79,7 +79,12 @@ function save() {
         .then(data => {
             text.innerHTML = data.results[0];
         })
-
     }
-
 }
+
+// function clear() {
+//     alert('1');
+//     context = document.getElementById('canvas').getContext("2d");
+//     context.clearRect(0, 0, 500, 500);
+//     text.innerHTML = '';
+// }

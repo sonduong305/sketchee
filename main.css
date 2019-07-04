@@ -40,4 +40,5 @@ input[type=button] {
    border: 0;
    padding: 3px 10px;
    color: #444;
+   margin: 0 3px;
 }
