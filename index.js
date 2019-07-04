@@ -49,7 +49,8 @@ function clearArea() {
 }
 
 
-function save() {
+function save(e) {
+    
     var dataURL = canvas.toDataURL("image/jpeg");
     img.src = dataURL;
 
@@ -70,15 +71,29 @@ function save() {
 
         fetch(url, {
             method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            // mode: "no-cors",
+            
             headers: {
-                "Content-Type": "application/json"
+                // "Content-Type": "application/json"
+                Connection: 'keep-alive',
+                'accept-encoding': 'gzip, deflate',
+                Host: 'localhost:5000',
+                Accept: '*/*',
+                'cache-control': 'no-cache',
+                'Content-Type': 'application/json' 
             },
-            body: JSON.stringify(data), // body data type must match "Content-Type" header
+            body: JSON.stringify(data),
+            json: true // body data type must match "Content-Type" header
         })
-        .then(data => {
-            text.innerText = data;
-        })
+        // .then(results => {
+        //     text.innerText = results.body;
+        //     console.log(results)
+        // })
+        .then(function(response) {
+            return response.json();
+        }).then(function(data) {
+            text.innerHTML = data.results[0]; // this will be a string
+        });
 
     }
-
 }

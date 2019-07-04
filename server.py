@@ -10,19 +10,6 @@ import base64
 import json
 from init_model import load_model
 keras.backend.clear_session()
-def application(environ, start_response):
-  if environ['REQUEST_METHOD'] == 'OPTIONS':
-    start_response(
-      '200 OK',
-      [
-        ('Content-Type', 'application/json'),
-        ('Access-Control-Allow-Origin', '*'),
-        ('Access-Control-Allow-Headers', 'Authorization, Content-Type'),
-        ('Access-Control-Allow-Methods', 'POST'),
-      ]
-    )
-    return ''
-
 model = load_model()
 class_names =[]
 with open('model\\class_names.txt', 'r') as f:
@@ -30,7 +17,7 @@ with open('model\\class_names.txt', 'r') as f:
 
 
 app = Flask(__name__)
-CORS(app, resources={"/*" : {"origins" : "*"}})
+CORS(app, resources={f"/*" : {"origins" : "*"}})
 
 
 
@@ -76,9 +63,10 @@ def disp_pic():
         # print(ind)
         results = [class_names[x] for x in ind]
         results = [result[:-1] for result in results]
-        # print(latex)
+        print(results)
         m = {'results': results}
-    return jsonify(m)
+        response = app.response_class(response=json.dumps(m),status=200,mimetype='application/json')
+    return response
 
 if __name__ == '__main__':
     app.run(debug=True)
