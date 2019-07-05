@@ -4,7 +4,7 @@ var context, contextResult;
 var img = new Image();
 var text = document.getElementById('test');
 const CANVAS_SIZE = 800;
-const LINE_SIZE = 25; 
+const LINE_SIZE = 40; 
 const EXPECTED_SIZE = 28;
 
 function InitThis() {
@@ -64,7 +64,7 @@ function save() {
         var dataURLResult = await canvasResult.toDataURL("image/jpeg");
         document.getElementById("canvas-image").src = dataURLResult;
         
-        var url = 'http://27.66.3.210:5005/predict';
+        var url = 'https://sketchee-app-2.herokuapp.com/predict';
 
         var data = {
             img: dataURLResult
