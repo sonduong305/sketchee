@@ -64,7 +64,7 @@ function save() {
         var dataURLResult = await canvasResult.toDataURL("image/jpeg");
         document.getElementById("canvas-image").src = dataURLResult;
         
-        var url = 'http://27.66.3.210:5005/predict';
+        var url = 'https://sketchee-app-2.herokuapp.com/predict';
 
         var data = {
             img: dataURLResult
