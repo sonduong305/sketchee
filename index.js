@@ -4,7 +4,7 @@ var context, contextResult;
 var img = new Image();
 var text = document.getElementById('test');
 const CANVAS_SIZE = 800;
-const LINE_SIZE = 25; 
+const LINE_SIZE = 40; 
 const EXPECTED_SIZE = 28;
 
 function InitThis() {
