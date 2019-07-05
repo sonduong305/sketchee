@@ -4,7 +4,8 @@ var context, contextResult;
 var img = new Image();
 var text = document.getElementById('test');
 const CANVAS_SIZE = 800;
-const LINE_SIZE = 10; 
+const LINE_SIZE = 25; 
+const EXPECTED_SIZE = 28;
 
 function InitThis() {
     context = document.getElementById('canvas').getContext("2d");
@@ -34,7 +35,7 @@ function Draw(x, y, isDown) {
         context.beginPath();
         context.lineWidth = LINE_SIZE;
         context.lineJoin = "round";
-        context.strokeStyle = "#eee";
+        context.strokeStyle = "#555";
         context.moveTo(lastX, lastY);
         context.lineTo(x, y);
         context.closePath();
@@ -57,9 +58,9 @@ function save() {
     img.src = dataURL;
 
     img.onload = async function () {
-        await contextResult.drawImage(img, 0, 0, 28, 28);
-        await contextResult.drawImage(canvasResult, 0, 0, 28, 28);
-        await contextResult.drawImage(canvasResult, 0, 0, 28, 28, 0, 0, 28, 28);
+        await contextResult.drawImage(img, 0, 0, EXPECTED_SIZE, EXPECTED_SIZE);
+        await contextResult.drawImage(canvasResult, 0, 0, EXPECTED_SIZE, EXPECTED_SIZE);
+        await contextResult.drawImage(canvasResult, 0, 0, EXPECTED_SIZE, EXPECTED_SIZE, 0, 0, EXPECTED_SIZE, EXPECTED_SIZE);
         var dataURLResult = await canvasResult.toDataURL("image/jpeg");
         document.getElementById("canvas-image").src = dataURLResult;
         
